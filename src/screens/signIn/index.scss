@@ -1,0 +1,13 @@
+.SignIn {
+  height: 100%;
+  background: #e1e1e1;
+  display: flex;
+
+  &--form {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-self: center;
+    justify-content: center;
+  }
+}
