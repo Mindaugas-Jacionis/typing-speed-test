@@ -16,7 +16,7 @@ class Main extends Component {
 
   getResult() {
     const { inputVal } = this.state;
-    return inputVal.split(' ').length;
+    return inputVal.split(' ').filter(val => val !== '').length;
   }
 
   timesUp() {
