@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Main from './main';
 import SignIn from './signIn';
-// import ThankYou from './thankyou';
 
 class Routes extends Component {
   render() {
