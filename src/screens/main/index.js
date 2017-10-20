@@ -26,8 +26,18 @@ class Main extends Component {
   onChange(event) {
     const { start } = this.state;
     const { value } = event.target;
+    const replaceSpaceValue = value.replace(/\s\s+/g, ' ');
+    const splitValue = replaceSpaceValue.split(' ');
+    const splitSmpleText = sampleText.split(' ');
+    const lastWordIndex = splitValue.length - 1;
+    const lastWord = splitValue.slice(-1)[0];
+    let newValue = replaceSpaceValue.replace(/[^\w\s]|_/g, "");
 
-    this.setState({ inputVal: value });
+    if (splitSmpleText[lastWordIndex] === lastWord) {
+      newValue = newValue + ' ';
+    }
+
+    this.setState({ inputVal: newValue });
     !start && this.setState({ start: true });
   }
 
@@ -55,7 +65,7 @@ class Main extends Component {
   }
 
   renderTest() {
-    const { start } = this.state;
+    const { start, inputVal } = this.state;
 
     return (
       <div>
@@ -70,10 +80,10 @@ class Main extends Component {
           </div>
         </div>
         <TextArea
-          placeholder={'Strt typing to start'}
           onChange={(val) => this.onChange(val)}
           className={'Main--hidden_textarea'}
           autoFocus={true}
+          value={inputVal}
         />
       </div>
     );

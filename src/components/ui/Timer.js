@@ -13,8 +13,6 @@ class Timer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { startWhen } = this.props;
-
-    console.log('HA', nextProps.startWhen, startWhen);
     !startWhen && nextProps.startWhen && this.startTimer();
   }
 
