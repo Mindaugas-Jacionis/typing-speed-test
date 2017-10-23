@@ -16,7 +16,12 @@ class Main extends Component {
 
   getResult() {
     const { inputVal } = this.state;
-    return inputVal.split(' ').length;
+    const result = inputVal.split(' ').reduce(
+      (sum, val, i) => sum = sampleText.split(' ')[i] === val ? sum + 1 : sum,
+      0
+    );
+    
+    return result;
   }
 
   timesUp() {
