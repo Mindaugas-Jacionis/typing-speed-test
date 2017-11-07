@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "custom-react-scripts": "^0.2.0",
+    "firebase": "^4.6.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -16,7 +17,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "prebuild": "rm -rf build/",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && firebase deploy"
   }
 }

@@ -1,3 +1,17 @@
 .Button {
-  background: transparent;
+  line-height: 44px;
+  font-size: 24px;
+  padding: 0px 10px;
+  border-radius: 4px;
+  border: 1px solid #7c00ff;
+  background: #7c00ff;
+  color: #fff;
+  cursor: pointer;
+  min-width: 120px;
+  box-sizing: border-box;
+  text-align: center;
+
+  &:hover {
+    background: #6300cc;
+  }
 }

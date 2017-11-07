@@ -1,3 +1,18 @@
 .Input {
-  
+  border-radius: 4px;
+  max-width: 320px;
+  width: 100%;
+  border: 1px solid #fff;
+  line-height: 42px;
+  font-size: 24px;
+  padding: 0px 10px;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #7c00ff;
+  }
+
+  &__valid-false {
+    border-color: #a90505;
+  }
 }

@@ -2,21 +2,26 @@ import * as types from './actionTypes';
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  isFetching: false,
-  errorMessage: false,
-  loggedIn: false
+  allPlayers: [],
+  errorMessage: null,
+  isFetching: false
 });
 
 export default function signIn(state = initialState, action = {}) {
   const { type } = action;
 
   switch (type) {
-    case types.SIGNIN:
+    case types.FETCH_ALL:
       return Object.assign({}, state, {
-        loggedIn: true
+        allPlayers: action.players || [],
+        errorMessage: action.err || null,
+        isFetching: false
       });
-
+    case types.FETCHING:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
     default:
       return state;
   }
-};
+}

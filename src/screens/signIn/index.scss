@@ -1,13 +1,86 @@
 .SignIn {
   height: 100%;
-  background: #e1e1e1;
+  background-image: url('../../assets/tesonet-logo-bright.svg');
+  background-color: #e1e1e1;
+  background-size: 130%;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
+  flex-direction: column;
+  padding: 50px 0;
+  box-sizing: border-box;
 
-  &--form {
-    display: flex;
-    flex-direction: row;
+  &__form--wrapper{
     flex: 1;
-    align-self: center;
+    display: flex;
     justify-content: center;
+
+    .SignIn__form {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      align-self: center;
+      justify-content: center;
+
+      .Input, .Button {
+        margin: 10px;
+      }
+
+      .Input {
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      .Button {
+        border-color: #e1e1e1;
+      }
+    }
+  }
+
+  &__highscore--wrapper {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+
+    .SignIn__highscore--chart {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 6px;
+      display: inline-flex;
+      flex-direction: column;
+
+      .SignIn__highscore--header {
+        h2 {
+          font-size: 30px;
+          font-weight: bold;
+          line-height: 68px;
+          text-align: center;
+        }
+      }
+
+      .SignIn__highscore--empty {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        padding-top: 40px;
+        box-sizing: border-box;
+
+        h3 {
+          font-size: 24px;
+          font-weight: bold;
+        }
+      }
+
+      .SignIn__highscore--player {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        box-sizing: border-box;
+        margin: 0px 20px;
+        padding: 10px 0px;
+        border-bottom: solid 1px #e1e1e1;
+        font-size: 18px;
+      }
+    }
   }
 }

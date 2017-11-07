@@ -2,10 +2,10 @@ import React from 'react';
 import './style/input.scss';
 
 const Input = (props) => {
-  const { type, placeholder, value } = props;
+  const { type, placeholder, value, onChange, valid = true } = props;
 
-  const onChange = (val) => {
-    console.log(val, onChange);
+  const onInput = (val) => {
+    onChange && onChange(val);
   };
 
   return (
@@ -13,8 +13,8 @@ const Input = (props) => {
       placeholder={placeholder}
       type={type}
       value={value}
-      onChange={onChange}
-      className={'Input'}
+      onChange={onInput}
+      className={`Input Input__valid-${valid}`}
     />
   );
 };

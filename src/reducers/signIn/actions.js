@@ -1,14 +1,10 @@
 import * as types from './actionTypes';
+import { Fire } from '../../utils';
 
 export function signIn(data) {
-  return {
-    types: [types.FETCH, types.FETCH_SUCCESS, types.FETCH_FAILURE],
-    api: (api) => api('/signin', Object.assign({}, data, { method: 'POST' }))
-  }
-}
+  Fire.database().ref('players').push(data);
 
-export function fakeSignIn() {
   return {
-    type: types.FAKE_LOGIN
+    type: types.SIGNIN
   }
 }
