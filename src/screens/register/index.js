@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, Button } from '../../components/ui';
 import Immutable from 'seamless-immutable';
-import * as signInActions from '../../reducers/signIn/actions';
+import * as playersActions from '../../reducers/players/actions';
 import { emailRegex } from '../../Constants';
 import { Fire } from '../../utils';
 import './index.scss';
 
-class SignIn extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,11 +48,11 @@ class SignIn extends Component {
 
   onClick() {
     const { email, name } = this.state;
-    const { signIn } = this.props;
+    const { newPlayer } = this.props;
     const isValid = this.validate();
 
     if (isValid) {
-      signIn({ name, email, score: 0 });
+      newPlayer({ name, email, score: 0 });
     }
   }
 
@@ -133,8 +133,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signIn: bindActionCreators(signInActions.signIn, dispatch)
+    newPlayer: bindActionCreators(playersActions.newPlayer, dispatch)
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

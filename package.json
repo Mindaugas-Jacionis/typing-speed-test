@@ -6,6 +6,7 @@
     "custom-react-scripts": "^0.2.0",
     "firebase": "^4.6.0",
     "prop-types": "^15.5.10",
+    "random-words": "^0.0.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

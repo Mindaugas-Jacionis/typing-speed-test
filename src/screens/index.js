@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as playersActions from '../reducers/players/actions';
 import Main from './main';
-import SignIn from './signIn';
+import Register from './register';
 
 class Routes extends Component {
   componentWillMount(){
@@ -24,14 +24,14 @@ class Routes extends Component {
 
     return (
       <Router>
-        <Route exact path="/" component={loggedIn ? Main : SignIn}/>
+        <Route exact path="/" component={loggedIn ? Main : Register}/>
       </Router>
     );
   }
 }
 
 function mapStateToProps(state, props) {
-  const { loggedIn } = state.signIn;
+  const { loggedIn } = state.players;
 
   return {
     loggedIn
