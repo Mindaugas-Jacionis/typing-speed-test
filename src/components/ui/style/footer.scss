@@ -1,0 +1,17 @@
+.Footer {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 20px;
+  text-align: center;
+
+  &__logo {
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-height: 420px) {
+    position: relative;
+    padding-top: 100px;
+  }
+}

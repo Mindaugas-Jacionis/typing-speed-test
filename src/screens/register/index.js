@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Button } from '../../components/ui';
+import { Input, Button, Footer, ScoreBoard } from '../../components/ui';
 import Immutable from 'seamless-immutable';
 import * as playersActions from '../../reducers/players/actions';
 import { emailRegex } from '../../Constants';
@@ -15,7 +15,8 @@ class Register extends Component {
       email: '',
       name: '',
       emailValid: true,
-      nameValid: true
+      nameValid: true,
+      scoreExpanded: false
     }
   }
 
@@ -56,43 +57,27 @@ class Register extends Component {
     }
   }
 
-  renderTopTen() {
-    const { topTen } = this.props;
-
-    return (
-      topTen.map(player => (
-        <div className={'SignIn__highscore--player'}>
-          <span>{player.name}</span>
-          <span>{player.score}</span>
-        </div>
-      ))
-    );
-  }
-
-  renderEmpty() {
-    const { isFetching } = this.props;
-
-    if (isFetching) {
-      return (
-        <div className={'SignIn__highscore--empty'}>
-          <h3>{'Loading...'}</h3>
-        </div>
-      );
-    }
-
-    return (
-      <div className={'SignIn__highscore--empty'}>
-        <h3>{'List is Empty! Be the First One!'}</h3>
-      </div>
-    );
+  toggleScoreBoard() {
+    const { scoreExpanded } = this.state;
+    this.setState({ scoreExpanded: !scoreExpanded });
   }
 
   render() {
-    const { emailValid, nameValid } = this.state;
-    const { topTen } = this.props;
+    const { emailValid, nameValid, scoreExpanded } = this.state;
+    const { topPlayers, isFetching } = this.props;
 
     return (
       <div className={'SignIn'}>
+        <ScoreBoard
+          players={topPlayers}
+          isFetching={isFetching}
+          onExpand={() => this.toggleScoreBoard()}
+          onClose={() => this.toggleScoreBoard()}
+          expanded={scoreExpanded}
+        />
+        <div className={'SignIn__title-wrapper'}>
+          <h1 className={'title'}>{'Take the challenge!'}</h1>
+        </div>
         <div className={'SignIn__form--wrapper'}>
           <div className={'SignIn__form'}>
             <Input
@@ -110,14 +95,7 @@ class Register extends Component {
             <Button text={'Start'} onClick={() => this.onClick()} type={'submit'}/>
           </div>
         </div>
-        <div className={'SignIn__highscore--wrapper'}>
-          <div className={'SignIn__highscore--chart'}>
-            <div className={'SignIn__highscore--header'}>
-              <h2>{'Top Players'}</h2>
-            </div>
-            {topTen.length ? this.renderTopTen() : this.renderEmpty()}
-          </div>
-        </div>
+        <Footer />
       </div>
     );
   }
@@ -125,10 +103,10 @@ class Register extends Component {
 
 function mapStateToProps(state, props) {
   const { allPlayers, isFetching } = state.players;
-  let topTen = Immutable.asMutable(allPlayers);
-  topTen = topTen.filter(val => val.score !== 0).sort((a, b) => b.score - a.score).slice(0, 9);
+  let topPlayers = Immutable.asMutable(allPlayers);
+  topPlayers = topPlayers.filter(val => val.score !== 0).sort((a, b) => b.score - a.score);
 
-  return { topTen, isFetching };
+  return { topPlayers, isFetching };
 };
 
 function mapDispatchToProps(dispatch) {

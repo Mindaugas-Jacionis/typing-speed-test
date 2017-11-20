@@ -23,19 +23,19 @@ export default function players(state = initialState, action = {}) {
       return Object.assign({}, state, {
         isFetching: true
       });
-    case types.UPDATE:
-      const updateIndex = state.allPlayers.findIndex(val => val.id === id);
-      let newAllPlayers = state.allPlayers;
-      newAllPlayers[updateIndex] = data;
-
-      return Object.assign({}, state, {
-        allPlayers: newAllPlayers
-      });
     case types.NEW_PLAYER:
       return Object.assign({}, state, {
         currentPlayer: data.id,
         allPlayers: state.allPlayers.concat([data]),
         loggedIn: true
+      });
+    case types.UPDATE:
+      const updateIndex = state.allPlayers.findIndex(val => val.id === id);
+      let newAllPlayers = state.allPlayers;
+      newAllPlayers[updateIndex] = Object.assign(newAllPlayers[updateIndex], data);
+
+      return Object.assign({}, state, {
+        allPlayers: newAllPlayers
       });
     default:
       return state;

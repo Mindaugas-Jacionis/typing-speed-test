@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Immutable from 'seamless-immutable';
 import words from 'random-words';
-import { TextArea, Timer } from '../../components/ui';
+import pluralize from 'pluralize';
+import { TextArea, Timer, Footer, ScoreBoard } from '../../components/ui';
 import * as playersActions from '../../reducers/players/actions';
 import './index.scss';
 
@@ -17,7 +19,8 @@ class Main extends Component {
       inputVal: '',
       start: false,
       timesUp: false,
-      generatedText: ''
+      generatedText: '',
+      scoreExpanded: false
     };
   }
 
@@ -38,7 +41,11 @@ class Main extends Component {
   }
 
   timesUp() {
+    const { currentPlayer, updatePlayer } = this.props;
+    const score = this.getResult();
+
     this.setState({ timesUp: true });
+    updatePlayer({ score }, currentPlayer);
   }
 
   onChange(event) {
@@ -59,29 +66,50 @@ class Main extends Component {
     !start && this.setState({ start: true });
   }
 
-  renderText() {
-    const { generatedText } = this.state;
+  toggleScoreBoard() {
+    const { scoreExpanded } = this.state;
+    this.setState({ scoreExpanded: !scoreExpanded });
+  }
 
-    return generatedText.split(' ').map(
+  renderText() {
+    const { generatedText, inputVal } = this.state;
+    const splitText = generatedText.split(' ').map((word, i) => {
+      const inputWord = inputVal.split(' ')[i] ? inputVal.split(' ')[i] : '';
+      const response = word.split('').map((char, i) => {
+        const inputChar = inputWord[i];
+        return inputChar || char;
+      }).join('');
+
+      return response + inputWord.substr(response.length);
+    });
+
+
+    return splitText.map(
       (val, i) => (
-        <span key={i} className={'Main--placeholder_text'}>
+        <span key={i} className={'Main__placeholder--text'}>
           {`${val} `}
         </span>
       ));
   }
 
   renderInput() {
-    const { inputVal } = this.state;
+    const { inputVal, generatedText } = this.state;
     const inputValArray = inputVal.split(' ');
     const cursor = (<span className={'blinking-cursor'}/>);
 
     return inputValArray.map(
-      (val, i) => (
-        <span key={i} className={'Main--input_text'}>
-          {`${val} `}
-          {i === inputValArray.length - 1 && cursor}
-        </span>
-      ));
+      (val, i) => {
+        const isValid = val === generatedText.split(' ')[i].substr(0, val.length);
+        const className = isValid ? '' : 'Main__input--text--invalid';
+
+        return (
+          <span key={i} className={`Main__input--text ${className}`}>
+            {`${val} `}
+            {i === inputValArray.length - 1 && cursor}
+          </span>
+        );
+      }
+    );
   }
 
   renderTest() {
@@ -89,19 +117,19 @@ class Main extends Component {
 
     return (
       <div>
-        <h3>Start Typing to Start Timer</h3>
+        <h3 className={'title'}>Start Typing to Start Timer</h3>
         <Timer startTime={'01:00'} startWhen={start} onEnd={() => this.timesUp()}/>
-        <div className={'Main--text_container'}>
-          <div className={'Main--text_wrapper'}>
+        <div className={'Main__text--container'}>
+          <div className={'Main__text--wrapper'}>
             {this.renderText()}
           </div>
-          <div className={'Main--text_wrapper'}>
+          <div className={'Main__text--wrapper'}>
             {this.renderInput()}
           </div>
         </div>
         <TextArea
           onChange={(val) => this.onChange(val)}
-          className={'Main--hidden_textarea'}
+          className={'Main__hidden--textarea'}
           autoFocus={true}
           value={inputVal}
         />
@@ -110,15 +138,25 @@ class Main extends Component {
   }
 
   renderResult() {
-    const { currentPlayer, updatePlayer } = this.props;
+    const { topPlayers, isFetching, currentPlayer } = this.props;
+    const { timesUp, scoreExpanded } = this.state;
     const score = this.getResult();
-    console.log('currentPlayer', currentPlayer);
-    updatePlayer({ score }, currentPlayer);
 
     return (
-      <div>
-        <h1>This is finish</h1>
-        <p>Your result is {score} words per minute</p>
+      <div className={'Main__Score--wrapper'}>
+        <ScoreBoard
+          players={topPlayers}
+          isFetching={isFetching}
+          onExpand={() => this.toggleScoreBoard()}
+          onClose={() => this.toggleScoreBoard()}
+          expanded={scoreExpanded}
+          currentPlayer={currentPlayer}
+        />
+        <h1 className={'title'}>Challenge completed.</h1>
+        <h1 className={'title'}>
+          {`Your score is ${pluralize('word', score, true)} per minute.`}
+        </h1>
+        <h1 className={'title'}>Now grab a donut - you deserved it!</h1>
       </div>
     );
   }
@@ -129,13 +167,20 @@ class Main extends Component {
     return (
       <div className={'Main'}>
         {timesUp ? this.renderResult() : this.renderTest()}
+        <Footer />
       </div>
     );
   }
 }
 
 function mapStateToProps(state, props) {
+  const { allPlayers, isFetching } = state.players;
+  let topPlayers = Immutable.asMutable(allPlayers);
+  topPlayers = topPlayers.filter(val => val.score !== 0).sort((a, b) => b.score - a.score);
+
   return {
+    topPlayers,
+    isFetching,
     currentPlayer: state.players.currentPlayer
   };
 }

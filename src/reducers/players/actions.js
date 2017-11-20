@@ -52,7 +52,6 @@ function fetchAllFailure(err) {
 
 export function newPlayer(data) {
   const currentPlayer = Fire.database().ref('players').push(data);
-  console.log('I am new', currentPlayer);
 
   return {
     type: types.NEW_PLAYER,

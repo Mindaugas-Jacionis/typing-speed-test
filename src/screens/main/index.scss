@@ -12,20 +12,24 @@
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
-  overflow: hidden;
+  color: #c2c2c2;
 
   h3, h2 {
-    font-size: 28px;
-    line-height: 36px;
-    text-align: center;
-    padding-bottom: 30px;
-
-    &h2 {
-      font-size: 30px;
+    &.title {
+      font-size: 28px;
+      line-height: 36px;
+      text-align: center;
+      padding-bottom: 30px;
     }
   }
 
-  &--text_container {
+  h2 {
+    &.title {
+      font-size: 32px;
+    }
+  }
+
+  &__text--container {
     width: 100%;
     height: 100%;
     max-width: 980px;
@@ -33,7 +37,7 @@
     position: relative;
   }
 
-  &--text_wrapper {
+  &__text--wrapper {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -45,12 +49,20 @@
     opacity: 0.5;
   }
 
-  &--placeholder_text, &--input_text {
+  &__placeholder--text, &__input--text {
     font-size: 20px;
     line-height: 26px;
   }
 
-  &--hidden_textarea {
+  &__input--text {
+    color: #7c00ff;
+
+    &.Main__input--text--invalid {
+      color: #a90505;
+    }
+  }
+
+  &__hidden--textarea {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -66,8 +78,13 @@
   .blinking-cursor {
     width: 2px;
     height: 18px;
-    background: #000;
+    background: #fff;
     display: inline-block;
     animation: 1s blink infinite;
+  }
+
+  &__Score--wrapper {
+    text-align: center;
+    padding: 100px 20px 20px;
   }
 }

@@ -1,0 +1,108 @@
+.ScoreBoard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  padding: 20px 20px 50px;
+  overflow: hidden;
+  transition: background 0s;
+  color: #FCE64D;
+
+  &__expandable--wrapper {
+    border-bottom: 1px solid #fff;
+    opacity: 0.7;
+    padding-bottom: 5px;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    h3 {
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  &__expanded--false {
+    .ScoreBoard__chart {
+      opacity: 0;
+      max-width: 0;
+      max-height: 0;
+    }
+  }
+
+  &__expanded--true {
+    left: 0;
+    background-color: #222;
+    overflow-y: auto;
+    z-index: 2;
+    min-height: 100%;
+    transition: background 0.3s linear;
+
+    .ScoreBoard__chart {
+      opacity: 1;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #a90505;
+    cursor: pointer;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    box-sizing: border-box;
+
+    h3 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
+  &__chart {
+    max-width: 800px;
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+
+    .ScoreBoard__header {
+      h2 {
+        font-size: 40px;
+        font-weight: bold;
+        line-height: 78px;
+        text-align: center;
+        padding-bottom: 50px;
+      }
+    }
+
+    .ScoreBoard__player {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      box-sizing: border-box;
+      margin: 0px 30px;
+      padding: 15px 0px;
+      border-bottom: solid 1px #bdb9b9;
+      font-size: 22px;
+
+      &.ScoreBoard__player--current--true {
+        font-weight: bold;
+      }
+    }
+  }
+}

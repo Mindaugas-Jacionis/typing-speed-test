@@ -1,12 +1,40 @@
 @import 'reset';
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@font-face {
+	font-family: 'Gordita';
+	font-weight: normal;
+	font-style: normal;
+  src: url("../assets/fonts/GorditaRegular.woff2") format("woff2"),
+       url("/fonts/GorditaRegular.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Gordita';
+	font-weight: bold;
+	font-style: normal;
+  src: url("../assets/fonts/GorditaBold.woff2") format("woff2"),
+       url("/fonts/GorditaBold.woff") format("woff");
+}
 
 * {
   transition: all 0.3s linear;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-family: 'Gordita', sans-serif;
 }
 
-#root {
-  height: 100%;
+body {
+  background: #222;
+
+  #root {
+    min-height: 100%;
+
+    h1, h2, h3 {
+      &.title {
+        color: #FCE64D;
+      }
+    }
+
+		h1 {
+			font-size: 52px;
+			line-height: 72px;
+		}
+  }
 }

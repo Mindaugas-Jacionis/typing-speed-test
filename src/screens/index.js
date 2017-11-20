@@ -10,13 +10,6 @@ class Routes extends Component {
   componentWillMount(){
     const { fetchPlayers } = this.props;
     fetchPlayers();
-
-    // playersRef.on('child_added', snapshot => {
-      // console.log('hillow', snapshot.val());
-      /* Update React state when message is added at Firebase Database */
-      // let message = { text: snapshot.val(), id: snapshot.key };
-      // this.setState({ messages: [message].concat(this.state.messages) });
-    // });
   }
 
   render() {
