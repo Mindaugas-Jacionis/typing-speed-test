@@ -1,7 +1,8 @@
 import * as types from './actionTypes';
 import { Fire } from '../../utils';
 
-const DB_TABLE = '20180105';
+const locale = 'lt-LT';
+const DB_TABLE = new Date().toLocaleDateString(locale).replace(/-/g, '');
 const playersRef = Fire.database().ref(DB_TABLE);
 
 async function fetchAllPlayers() {
