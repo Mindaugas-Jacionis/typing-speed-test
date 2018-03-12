@@ -4,6 +4,10 @@
   flex-direction: column;
   padding: 50px 0px 0px;
   box-sizing: border-box;
+  background-image: url('../../assets/images/svg/illustration-girl.svg');
+  background-position: center;
+  background-size: 80% auto;
+  background-repeat: no-repeat;
 
   &__title-wrapper {
     max-width: 820px;

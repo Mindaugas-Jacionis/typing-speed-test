@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Immutable from 'seamless-immutable';
 import words from 'random-words';
 import pluralize from 'pluralize';
-import { TextArea, Timer, Footer, ScoreBoard } from '../../components/ui';
+import { TextArea, Timer, Footer, ScoreBoard, Button } from '../../components/ui';
 import * as playersActions from '../../reducers/players/actions';
 import './index.scss';
 
@@ -69,6 +69,10 @@ class Main extends Component {
   toggleScoreBoard() {
     const { scoreExpanded } = this.state;
     this.setState({ scoreExpanded: !scoreExpanded });
+  }
+
+  startAgain() {
+    window.location.reload();
   }
 
   renderText() {
@@ -156,7 +160,12 @@ class Main extends Component {
         <h1 className={'title'}>
           {`Your score is ${pluralize('word', score, true)} per minute.`}
         </h1>
-        <h1 className={'title'}>Now grab a donut - you deserved it!</h1>
+        <h1 className={'title last'}>Now grab a donut - you deserved it!</h1>
+        <Button
+          text={'Start Again'}
+          onClick={() => this.startAgain()}
+          type={'submit'}
+        />
       </div>
     );
   }

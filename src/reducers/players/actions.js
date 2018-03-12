@@ -1,16 +1,17 @@
 import * as types from './actionTypes';
 import { Fire } from '../../utils';
 
-const playersRef = Fire.database().ref('players');
+const DB_TABLE = '20180105';
+const playersRef = Fire.database().ref(DB_TABLE);
 
 async function fetchAllPlayers() {
   let players = await playersRef.once('value').then(response => {
     return response.val();
   });
 
-  players = Object.keys(players).map(
-    (key, i) => Object.assign({}, players[key], {
-      id: key
+  players = Object.keys(players).map((key, i) =>
+    Object.assign({}, players[key], {
+      id: key,
     })
   );
 
@@ -33,30 +34,32 @@ export const fetchAll = () => {
 function fetching() {
   return {
     type: types.FETCHING,
-  }
+  };
 }
 
 function fetchAllSuccess(players) {
   return {
     type: types.FETCH_ALL,
-    players
-  }
+    players,
+  };
 }
 
 function fetchAllFailure(err) {
   return {
     type: types.FETCH_ALL,
-    err
-  }
+    err,
+  };
 }
 
 export function newPlayer(data) {
-  const currentPlayer = Fire.database().ref('players').push(data);
+  const currentPlayer = Fire.database()
+    .ref(DB_TABLE)
+    .push(data);
 
   return {
     type: types.NEW_PLAYER,
-    data: Object.assign({}, data, { id: currentPlayer.key })
-  }
+    data: Object.assign({}, data, { id: currentPlayer.key }),
+  };
 }
 
 export function updatePlayer(data, id) {
@@ -65,6 +68,6 @@ export function updatePlayer(data, id) {
   return {
     type: types.UPDATE,
     id,
-    data
-  }
+    data,
+  };
 }
