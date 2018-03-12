@@ -5,7 +5,6 @@ import { Input, Button, Footer, ScoreBoard } from '../../components/ui';
 import Immutable from 'seamless-immutable';
 import * as playersActions from '../../reducers/players/actions';
 import { emailRegex } from '../../Constants';
-import { Fire } from '../../utils';
 import './index.scss';
 
 class Register extends Component {
@@ -14,14 +13,18 @@ class Register extends Component {
     this.state = {
       email: '',
       name: '',
+      study: '',
+      year: '',
       emailValid: true,
       nameValid: true,
-      scoreExpanded: false
-    }
+      studyValid: true,
+      yearValid: true,
+      scoreExpanded: false,
+    };
   }
 
   validate() {
-    const { email, name } = this.state;
+    const { email, name, study, year } = this.state;
     let isValid = true;
 
     if (!name || name.length < 2) {
@@ -34,6 +37,16 @@ class Register extends Component {
       this.setState({ emailValid: false });
     }
 
+    if (!study || study.length < 2) {
+      isValid = false;
+      this.setState({ studyValid: false });
+    }
+
+    if (!year || year < 1) {
+      isValid = false;
+      this.setState({ yearValid: false });
+    }
+
     return isValid;
   }
 
@@ -43,17 +56,17 @@ class Register extends Component {
 
     this.setState({
       [key]: value,
-      [validityKey]: true
+      [validityKey]: true,
     });
   }
 
   onClick() {
-    const { email, name } = this.state;
+    const { email, name, study, year } = this.state;
     const { newPlayer } = this.props;
     const isValid = this.validate();
 
     if (isValid) {
-      newPlayer({ name, email, score: 0 });
+      newPlayer({ name, email, study, year, score: 0 });
     }
   }
 
@@ -63,7 +76,13 @@ class Register extends Component {
   }
 
   render() {
-    const { emailValid, nameValid, scoreExpanded } = this.state;
+    const {
+      emailValid,
+      nameValid,
+      scoreExpanded,
+      studyValid,
+      yearValid,
+    } = this.state;
     const { topPlayers, isFetching } = this.props;
 
     return (
@@ -80,39 +99,68 @@ class Register extends Component {
         </div>
         <div className={'SignIn__form--wrapper'}>
           <div className={'SignIn__form'}>
-            <Input
-              type={'text'}
-              placeholder={'Full Name'}
-              onChange={(val) => this.onChange('name', val)}
-              valid={nameValid}
+            <div>
+              <Input
+                type={'text'}
+                placeholder={'Full Name'}
+                onChange={val => this.onChange('name', val)}
+                valid={nameValid}
+              />
+              <Input
+                type={'email'}
+                placeholder={'Email'}
+                onChange={val => this.onChange('email', val)}
+                valid={emailValid}
+              />
+            </div>
+            <div>
+              <Input
+                type={'text'}
+                placeholder={'Field of Study'}
+                onChange={val => this.onChange('study', val)}
+                valid={studyValid}
+              />
+              <Input
+                type={'number'}
+                placeholder={'Year of Study'}
+                onChange={val => this.onChange('year', val)}
+                valid={yearValid}
+              />
+            </div>
+          </div>
+          <div className="SignIn__form_submit">
+            <p className="SignIn__form_terms">
+              <span>
+                By submiting I agree to receive job offers from Tesonet
+              </span>
+            </p>
+            <Button
+              text={'Start'}
+              onClick={() => this.onClick()}
+              type={'submit'}
             />
-            <Input
-              type={'email'}
-              placeholder={'Email'}
-              onChange={(val) => this.onChange('email', val)}
-              valid={emailValid}
-            />
-            <Button text={'Start'} onClick={() => this.onClick()} type={'submit'}/>
           </div>
         </div>
         <Footer />
       </div>
     );
   }
-};
+}
 
 function mapStateToProps(state, props) {
   const { allPlayers, isFetching } = state.players;
   let topPlayers = Immutable.asMutable(allPlayers);
-  topPlayers = topPlayers.filter(val => val.score !== 0).sort((a, b) => b.score - a.score);
+  topPlayers = topPlayers
+    .filter(val => val.score !== 0)
+    .sort((a, b) => b.score - a.score);
 
   return { topPlayers, isFetching };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
-    newPlayer: bindActionCreators(playersActions.newPlayer, dispatch)
+    newPlayer: bindActionCreators(playersActions.newPlayer, dispatch),
   };
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
