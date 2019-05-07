@@ -4,13 +4,7 @@ import { bindActionCreators } from 'redux';
 import Immutable from 'seamless-immutable';
 import words from 'random-words';
 import pluralize from 'pluralize';
-import {
-  TextArea,
-  Timer,
-  Footer,
-  ScoreBoard,
-  Button,
-} from '../../components/ui';
+import { TextArea, Timer, Footer, ScoreBoard, Button } from '../../components/ui';
 import * as playersActions from '../../reducers/players/actions';
 import './index.scss';
 
@@ -39,11 +33,7 @@ class Main extends Component {
     const { inputVal, generatedText } = this.state;
     const result = inputVal
       .split(' ')
-      .reduce(
-        (sum, val, i) =>
-          (sum = generatedText.split(' ')[i] === val ? sum + 1 : sum),
-        0
-      );
+      .reduce((sum, val, i) => (sum = generatedText.split(' ')[i] === val ? sum + 1 : sum), 0);
 
     return result;
   }
@@ -129,11 +119,7 @@ class Main extends Component {
     return (
       <div>
         <h3 className={'title'}>Start Typing to Start Timer</h3>
-        <Timer
-          startTime={'01:00'}
-          startWhen={start}
-          onEnd={() => this.timesUp()}
-        />
+        <Timer startTime={'01:00'} startWhen={start} onEnd={() => this.timesUp()} />
         <div className={'Main__text--container'}>
           <div className={'Main__text--wrapper'}>{this.renderText()}</div>
           <div className={'Main__text--wrapper'}>{this.renderInput()}</div>
@@ -164,15 +150,9 @@ class Main extends Component {
           currentPlayer={currentPlayer}
         />
         <h1 className={'title'}>Challenge completed.</h1>
-        <h1 className={'title'}>
-          {`Your score is ${pluralize('word', score, true)} per minute.`}
-        </h1>
-        <h1 className={'title last'}>Now grab a donut - you deserved it!</h1>
-        <Button
-          text={'Start Again'}
-          onClick={() => this.startAgain()}
-          type={'submit'}
-        />
+        <h1 className={'title'}>{`Your score is ${pluralize('word', score, true)} per minute.`}</h1>
+        <h1 className={'title last'}>Now grab your prize - you deserved it!</h1>
+        <Button text={'Start Again'} onClick={() => this.startAgain()} type={'submit'} />
       </div>
     );
   }
@@ -192,9 +172,7 @@ class Main extends Component {
 function mapStateToProps(state, props) {
   const { allPlayers, isFetching } = state.players;
   let topPlayers = Immutable.asMutable(allPlayers);
-  topPlayers = topPlayers
-    .filter(val => val.score !== 0)
-    .sort((a, b) => b.score - a.score);
+  topPlayers = topPlayers.filter(val => val.score !== 0).sort((a, b) => b.score - a.score);
 
   return {
     topPlayers,
@@ -209,4 +187,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
